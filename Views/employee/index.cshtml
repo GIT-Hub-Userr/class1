@@ -1,0 +1,34 @@
+﻿@model List<WebApplication3.Models.employee_table>
+@{
+    ViewBag.Title = "index";
+    int sn = 0;
+}
+<style>
+    th{
+        border:3px solid black;
+        padding:4px;
+        background-color:aquamarine;
+    }
+</style>
+
+<h2>Display</h2>
+<table class="table" border="1">
+    <tr>
+        <th>SN</th>
+        <th>id</th>
+        <th>name</th>
+        <th>address</th>
+        <th>contact</th>
+    </tr>
+    @foreach (var employee_table in Model)
+            {
+                <tr>
+                    <td>@(++sn)</td>
+                    <td>@employee_table.id</td>
+                    <td>@employee_table.name</td>
+                    <td>@employee_table.address</td>
+                    <td>@employee_table.contact</td>
+</tr>
+            }
+</table>
+
