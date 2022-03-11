@@ -1,0 +1,37 @@
+﻿@model List<WebApplication3.Models.studentdetail>
+@{
+    ViewBag.Title = "studentView";
+    int sn = 0;
+}
+<style>
+    th {
+        border: 3px solid black;
+        padding: 4px;
+        background-color: aquamarine;
+    }
+</style>
+
+<h2>studentView</h2>
+<table class="table" border="1">
+    <tr>
+        <th>SN</th>
+        <th>id</th>
+        <th>Name</th>
+        <th>address</th>
+        <th>age</th>
+        <th>Phone No.</th>
+    </tr>
+    @foreach (var studentdetail in Model)
+    {
+<tr>
+    <td>@(++sn)</td>
+    <td>@studentdetail.id</td>
+    <td>@studentdetail.sname</td>
+    <td>@studentdetail.saddress</td>
+    <td>@studentdetail.sage</td>
+    <td>@studentdetail.sphno</td>
+
+</tr>
+    }
+</table>
+
