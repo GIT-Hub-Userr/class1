@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "Create";
+}
+
+@*<<style>
+    input[type=submit]
+    {
+        padding:5px;
+        background-color:aquamarine;
+        color:black;
+        margin:15px 0;
+        border:none;
+        border-radius:10px;
+    }
+
+    input[type=submit]:hover{
+        background-color:aqua;
+        color:white;
+    }
+</style>*@
+
+<h2 style="text-align:center;">Add New Record</h2>
+
+
+<form action="SaveData">
+
+    <label class="col-md-12">Name: </label>
+    <div class="col-md-12">
+        <input type="text" name="name" value="" class="form-control" />
+    </div>
+
+
+    <label class="col-md-12">Address: </label>
+    <div class="col-md-12">
+        <input type="text" name="address" value="" class="form-control" />
+    </div>
+
+
+    <label class="col-md-12">Contact: </label>
+    <div class="col-md-12">
+        <input type="text" name="contact" value="" class="form-control" />
+    </div>
+
+    <div class="col-md-12">
+        <input style="margin-top:12px;" type="submit" name="submit" class="btn btn-success" value="ADD" id="submit" />
+    </div>
+</form>
+

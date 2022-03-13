@@ -3,11 +3,15 @@
     ViewBag.Title = "index";
     int sn = 0;
 }
+
+<br /><br />
+<a href="@Url.Action("Create")" style="color:green;">Add new Record</a>
+<h3>Database Table Display</h3>
 <style>
-    th{
-        border:3px solid black;
-        padding:4px;
-        background-color:aquamarine;
+    th {
+        border: 3px solid black;
+        padding: 4px;
+        background-color: aquamarine;
     }
 </style>
 
@@ -21,14 +25,14 @@
         <th>contact</th>
     </tr>
     @foreach (var employee_table in Model)
-            {
-                <tr>
-                    <td>@(++sn)</td>
-                    <td>@employee_table.id</td>
-                    <td>@employee_table.name</td>
-                    <td>@employee_table.address</td>
-                    <td>@employee_table.contact</td>
-</tr>
-            }
+    {
+        <tr>
+            <td>@(++sn)</td>
+            <td>@employee_table.id</td>
+            <td>@employee_table.name</td>
+            <td>@employee_table.address</td>
+            <td>@employee_table.contact</td>
+        </tr>
+    }
 </table>
 

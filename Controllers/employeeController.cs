@@ -23,5 +23,15 @@ namespace WebApplication3.Controllers
             List<employee_table> all_data = db.employee_table.ToList();
             return View(all_data);
         }
+        public ActionResult Create()
+        {
+            return View();
+        }
+        public ActionResult SaveData(employee_table employeetable)
+        {
+            db.employee_table.Add(employeetable);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }
