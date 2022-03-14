@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using WebApplication3.Models;
+using System.Data.Entity;
 
 namespace WebApplication3.Controllers
 {
@@ -32,6 +33,19 @@ namespace WebApplication3.Controllers
             db.employee_table.Add(employeetable);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+        public ActionResult Edit(int id)
+        {
+            employee_table old_data = db.employee_table.Find(id);//find data using primary key
+            //employee_table data = db.employee_table.FirstOrDefault(x => x.id == id); want to find not from id but from other
+            return View(old_data); ;
+        }
+        public ActionResult UpdateData(employee_table employee_table)
+        {
+            db.Entry(employee_table).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
         }
     }
 }

@@ -23,6 +23,7 @@
         <th>name</th>
         <th>address</th>
         <th>contact</th>
+        <th>edit</th>
     </tr>
     @foreach (var employee_table in Model)
     {
@@ -32,6 +33,7 @@
             <td>@employee_table.name</td>
             <td>@employee_table.address</td>
             <td>@employee_table.contact</td>
+            <td><a href="@Url.Action("Edit", new {id=employee_table.id})">Edit</a></td>
         </tr>
     }
 </table>
