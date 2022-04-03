@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="employee_table">
           <Key>
             <PropertyRef Name="id" />
@@ -24,37 +24,78 @@
           <Property Name="sage" Type="int" Nullable="false" />
           <Property Name="sphno" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="teacherdetails">
+          <Key>
+            <PropertyRef Name="tid" />
+            <PropertyRef Name="tname" />
+            <PropertyRef Name="taddress" />
+            <PropertyRef Name="tcontact" />
+            <PropertyRef Name="tsubject" />
+          </Key>
+          <Property Name="tid" Type="int" Nullable="false" />
+          <Property Name="tname" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="taddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tcontact" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tsubject" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityContainer Name="employeeModelStoreContainer">
           <EntitySet Name="employee_table" EntityType="Self.employee_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="studentdetails" EntityType="Self.studentdetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="teacherdetails" EntityType="Self.teacherdetails" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [teacherdetails].[tid] AS [tid], 
+    [teacherdetails].[tname] AS [tname], 
+    [teacherdetails].[taddress] AS [taddress], 
+    [teacherdetails].[tcontact] AS [tcontact], 
+    [teacherdetails].[tsubject] AS [tsubject]
+    FROM [dbo].[teacherdetails] AS [teacherdetails]</DefiningQuery>
+          </EntitySet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="employeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="employee_table" EntityType="employeeModel.employee_table" />
-          <EntitySet Name="studentdetails" EntityType="employeeModel.studentdetail" />
-        </EntityContainer>
         <EntityType Name="employee_table">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="address" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="contact" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
         <EntityType Name="studentdetail">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="sname" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="saddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="sname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="saddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="sage" Type="Int32" Nullable="false" />
-          <Property Name="sphno" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="sphno" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
         </EntityType>
+        <EntityType Name="teacherdetail">
+          <Key>
+            <PropertyRef Name="tid" />
+            <PropertyRef Name="tname" />
+            <PropertyRef Name="taddress" />
+            <PropertyRef Name="tcontact" />
+            <PropertyRef Name="tsubject" />
+          </Key>
+          <Property Name="tid" Type="Int32" Nullable="false" />
+          <Property Name="tname" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="taddress" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tcontact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tsubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="employee_table" EntityType="Self.employee_table" />
+          <EntitySet Name="studentdetails" EntityType="Self.studentdetail" />
+          <EntitySet Name="teacherdetails" EntityType="Self.teacherdetail" />
+        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -64,21 +105,32 @@
           <EntitySetMapping Name="employee_table">
             <EntityTypeMapping TypeName="employeeModel.employee_table">
               <MappingFragment StoreEntitySet="employee_table">
-                <ScalarProperty Name="contact" ColumnName="contact" />
-                <ScalarProperty Name="address" ColumnName="address" />
-                <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="studentdetails">
             <EntityTypeMapping TypeName="employeeModel.studentdetail">
               <MappingFragment StoreEntitySet="studentdetails">
-                <ScalarProperty Name="sphno" ColumnName="sphno" />
-                <ScalarProperty Name="sage" ColumnName="sage" />
-                <ScalarProperty Name="saddress" ColumnName="saddress" />
-                <ScalarProperty Name="sname" ColumnName="sname" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="sname" ColumnName="sname" />
+                <ScalarProperty Name="saddress" ColumnName="saddress" />
+                <ScalarProperty Name="sage" ColumnName="sage" />
+                <ScalarProperty Name="sphno" ColumnName="sphno" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="teacherdetails">
+            <EntityTypeMapping TypeName="employeeModel.teacherdetail">
+              <MappingFragment StoreEntitySet="teacherdetails">
+                <ScalarProperty Name="tid" ColumnName="tid" />
+                <ScalarProperty Name="tname" ColumnName="tname" />
+                <ScalarProperty Name="taddress" ColumnName="taddress" />
+                <ScalarProperty Name="tcontact" ColumnName="tcontact" />
+                <ScalarProperty Name="tsubject" ColumnName="tsubject" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

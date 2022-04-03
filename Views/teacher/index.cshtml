@@ -1,0 +1,35 @@
+﻿@model List<WebApplication3.Models.teacherdetail>
+@{
+    ViewBag.Title = "index";
+    int sn = 0;
+}
+
+<br />
+<br />
+<a href="@Url.Action("createT")" style="color:green;">Add new Record</a>
+<h2>TeacherView</h2>
+<table class="table" border="1">
+    <tr>
+        <th>SN</th>
+        <th>id</th>
+        <th>Name</th>
+        <th>address</th>
+        <th>contact</th>
+        <th>subject</th>
+        <th>edit</th>
+    </tr>
+    @foreach (var teacherdetail in Model)
+    {
+        <tr>
+            <td>@(++sn)</td>
+            <td>@teacherdetail.tid</td>
+            <td>@teacherdetail.tname</td>
+            <td>@teacherdetail.taddress</td>
+            <td>@teacherdetail.tcontact</td>
+            <td>@teacherdetail.tsubject</td>
+            <td><a href="@Url.Action("Edit", new {tid=teacherdetail.tid})">Edit</a></td>
+
+        </tr>
+    }
+</table>
+

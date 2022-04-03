@@ -19,8 +19,33 @@
     <Property Name="sage" Type="int" Nullable="false" />
     <Property Name="sphno" Type="varchar" MaxLength="50" Nullable="false" />
   </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="teacherdetails">
+    <Key>
+      <PropertyRef Name="tid" />
+      <PropertyRef Name="tname" />
+      <PropertyRef Name="taddress" />
+      <PropertyRef Name="tcontact" />
+      <PropertyRef Name="tsubject" />
+    </Key>
+    <Property Name="tid" Type="int" Nullable="false" />
+    <Property Name="tname" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="taddress" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="tcontact" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="tsubject" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityContainer Name="employeeModelStoreContainer">
     <EntitySet Name="employee_table" EntityType="Self.employee_table" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="studentdetails" EntityType="Self.studentdetails" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="teacherdetails" EntityType="Self.teacherdetails" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [teacherdetails].[tid] AS [tid], 
+    [teacherdetails].[tname] AS [tname], 
+    [teacherdetails].[taddress] AS [taddress], 
+    [teacherdetails].[tcontact] AS [tcontact], 
+    [teacherdetails].[tsubject] AS [tsubject]
+    FROM [dbo].[teacherdetails] AS [teacherdetails]</DefiningQuery>
+    </EntitySet>
   </EntityContainer>
 </Schema>
