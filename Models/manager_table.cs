@@ -12,20 +12,11 @@ namespace WebApplication3.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class employee_table
+    public partial class manager_table
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public employee_table()
-        {
-            this.employee_salary_details = new HashSet<employee_salary_details>();
-        }
-    
-        public int id { get; set; }
+        public int mid { get; set; }
         public string name { get; set; }
         public string address { get; set; }
         public string contact { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<employee_salary_details> employee_salary_details { get; set; }
     }
 }

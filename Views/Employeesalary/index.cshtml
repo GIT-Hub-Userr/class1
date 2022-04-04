@@ -1,0 +1,41 @@
+﻿@model List<WebApplication3.Models.employee_salary_details>
+@{
+    ViewBag.Title = "index";
+    int sn = 0;
+}
+
+<br />
+<br />
+<a href="@Url.Action("Create")" style="color:green;">Add new Record</a>
+<h3>Database Table Display</h3>
+<style>
+    th {
+        border: 3px solid black;
+        padding: 4px;
+        background-color: aquamarine;
+    }
+</style>
+
+<h2>Display</h2>
+<table class="table" border="1">
+    <tr>
+        <th>SN</th>
+        <th>id</th>
+        <th>employee_id</th>
+        <th>salary_paid</th>
+        <th>paid_date</th>
+        <th>edit</th>
+    </tr>
+    @foreach (var employee_salary_details in Model)
+    {
+        <tr>
+            <td>@(++sn)</td>
+            <td>@employee_salary_details.id</td>
+            <td>@employee_salary_details.employee_id</td>
+            <td>@employee_salary_details.salary_paid</td>
+            <td>@employee_salary_details.paid_date</td>
+            <td><a href="@Url.Action("Edit", new {id=employee_salary_details.id})">Edit</a></td>
+        </tr>
+    }
+</table>
+

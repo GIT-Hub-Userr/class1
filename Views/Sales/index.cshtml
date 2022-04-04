@@ -1,0 +1,41 @@
+﻿@model List<WebApplication3.Models.sales_table>
+@{
+    ViewBag.Title = "index";
+    int sn = 0;
+}
+
+<br />
+<br />
+<a href="@Url.Action("Create")" style="color:green;">Add new Record</a>
+<h3>Database Table Display</h3>
+<style>
+    th {
+        border: 3px solid black;
+        padding: 4px;
+        background-color: aquamarine;
+    }
+</style>
+
+<h2>Display</h2>
+<table class="table" border="1">
+    <tr>
+        <th>SN</th>
+        <th>id</th>
+        <th>name</th>
+        <th>address</th>
+        <th>contact</th>
+        <th>edit</th>
+    </tr>
+    @foreach (var sales_table in Model)
+    {
+        <tr>
+            <td>@(++sn)</td>
+            <td>@sales_table.sid</td>
+            <td>@sales_table.name</td>
+            <td>@sales_table.address</td>
+            <td>@sales_table.contact</td>
+            <td><a href="@Url.Action("Edit", new {sid=sales_table.sid})">Edit</a></td>
+        </tr>
+    }
+</table>
+

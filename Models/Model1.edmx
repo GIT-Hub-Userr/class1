@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
       <Schema Namespace="employeeModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="employee_salary_details">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="employee_id" Type="int" Nullable="false" />
+          <Property Name="salary_paid" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="paid_date" Type="datetime" Nullable="false" />
+        </EntityType>
         <EntityType Name="employee_table">
           <Key>
             <PropertyRef Name="id" />
@@ -13,6 +22,24 @@
           <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="address" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="contact" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="manager_table">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="contact" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sales_table">
+          <Key>
+            <PropertyRef Name="sid" />
+          </Key>
+          <Property Name="sid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="contact" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="studentdetails">
           <Key>
@@ -40,8 +67,23 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="tcontact" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="tsubject" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_employee_salary_details_employee_table">
+          <End Role="employee_table" Type="Self.employee_table" Multiplicity="1" />
+          <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee_table">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee_salary_details">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="employeeModelStoreContainer">
+          <EntitySet Name="employee_salary_details" EntityType="Self.employee_salary_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employee_table" EntityType="Self.employee_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="manager_table" EntityType="Self.manager_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sales_table" EntityType="Self.sales_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="studentdetails" EntityType="Self.studentdetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="teacherdetails" EntityType="Self.teacherdetails" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -52,12 +94,26 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
     [teacherdetails].[tsubject] AS [tsubject]
     FROM [dbo].[teacherdetails] AS [teacherdetails]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_employee_salary_details_employee_table" Association="Self.FK_employee_salary_details_employee_table">
+            <End Role="employee_table" EntitySet="employee_table" />
+            <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="employeeModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="employee_salary_details">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="employee_id" Type="Int32" Nullable="false" />
+          <Property Name="salary_paid" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="paid_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="employee_table" Relationship="Self.FK_employee_salary_details_employee_table" FromRole="employee_salary_details" ToRole="employee_table" />
+        </EntityType>
         <EntityType Name="employee_table">
           <Key>
             <PropertyRef Name="id" />
@@ -66,6 +122,25 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="employee_salary_details" Relationship="Self.FK_employee_salary_details_employee_table" FromRole="employee_table" ToRole="employee_salary_details" />
+        </EntityType>
+        <EntityType Name="manager_table">
+          <Key>
+            <PropertyRef Name="mid" />
+          </Key>
+          <Property Name="mid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sales_table">
+          <Key>
+            <PropertyRef Name="sid" />
+          </Key>
+          <Property Name="sid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
         <EntityType Name="studentdetail">
           <Key>
@@ -91,10 +166,29 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="tcontact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="tsubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <Association Name="FK_employee_salary_details_employee_table">
+          <End Role="employee_table" Type="Self.employee_table" Multiplicity="1" />
+          <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="employee_table">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee_salary_details">
+              <PropertyRef Name="employee_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="employee_salary_details" EntityType="Self.employee_salary_details" />
           <EntitySet Name="employee_table" EntityType="Self.employee_table" />
+          <EntitySet Name="manager_table" EntityType="Self.manager_table" />
+          <EntitySet Name="sales_table" EntityType="Self.sales_table" />
           <EntitySet Name="studentdetails" EntityType="Self.studentdetail" />
           <EntitySet Name="teacherdetails" EntityType="Self.teacherdetail" />
+          <AssociationSet Name="FK_employee_salary_details_employee_table" Association="Self.FK_employee_salary_details_employee_table">
+            <End Role="employee_table" EntitySet="employee_table" />
+            <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+          </AssociationSet>
         </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
@@ -102,10 +196,40 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="employeeModelStoreContainer" CdmEntityContainer="MainEntities">
+          <EntitySetMapping Name="employee_salary_details">
+            <EntityTypeMapping TypeName="employeeModel.employee_salary_details">
+              <MappingFragment StoreEntitySet="employee_salary_details">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="employee_id" ColumnName="employee_id" />
+                <ScalarProperty Name="salary_paid" ColumnName="salary_paid" />
+                <ScalarProperty Name="paid_date" ColumnName="paid_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="employee_table">
             <EntityTypeMapping TypeName="employeeModel.employee_table">
               <MappingFragment StoreEntitySet="employee_table">
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="manager_table">
+            <EntityTypeMapping TypeName="employeeModel.manager_table">
+              <MappingFragment StoreEntitySet="manager_table">
+                <ScalarProperty Name="mid" ColumnName="mid" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="address" ColumnName="address" />
+                <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sales_table">
+            <EntityTypeMapping TypeName="employeeModel.sales_table">
+              <MappingFragment StoreEntitySet="sales_table">
+                <ScalarProperty Name="sid" ColumnName="sid" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="contact" ColumnName="contact" />

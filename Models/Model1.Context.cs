@@ -25,7 +25,10 @@ namespace WebApplication3.Models
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<employee_salary_details> employee_salary_details { get; set; }
         public virtual DbSet<employee_table> employee_table { get; set; }
+        public virtual DbSet<manager_table> manager_table { get; set; }
+        public virtual DbSet<sales_table> sales_table { get; set; }
         public virtual DbSet<studentdetail> studentdetails { get; set; }
         public virtual DbSet<teacherdetail> teacherdetails { get; set; }
     }
