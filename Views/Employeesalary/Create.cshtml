@@ -23,11 +23,14 @@
 <h2 style="text-align:center;">Add New Record</h2>
 
 
-<form action="SaveData">
+@*<form action="SaveData">*@
+   @using (@Html.BeginForm("SaveData", "Employeesalary", FormMethod.Post))
+   {
 
-    <label class="col-md-12">Employee_ID: </label>
+    <label class="col-md-12">EmployeeName: </label>
     <div class="col-md-12">
-        <input type="text" name="employee_id" value="" class="form-control" />
+        @Html.DropDownList("employeelist", null, "Select", htmlAttributes: new { @Name = "employee_id", @class = "form-control" })
+        @*<input type="text" name="employee_id" value="" class="form-control" />*@
     </div>
 
     <label class="col-md-12">Salary_Paid: </label>
@@ -46,5 +49,5 @@
     <div class="col-md-12">
         <input style="margin-top:12px;" type="submit" name="submit" class="btn btn-success" value="ADD" id="submit" />
     </div>
-</form>
-
+@*</form>*@
+   }

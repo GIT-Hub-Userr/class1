@@ -5,8 +5,9 @@
 
 <h2>Edit</h2>
 
-@using (Html.BeginForm("UpdateData", "employeesalary"))
+@using (Html.BeginForm("UpdateData", "Employeesalary"))
 {
+    <input type="hidden" name="id" value="@Model.id" />
     <label class="col-md-12">employee_id: </label>
     <div class="col-md-12">
         <input type="text" name="employee_id" value="" class="form-control" />
@@ -25,6 +26,6 @@
     </div>
 
     <div class="col-md-12">
-        <input style="margin-top:12px;" type="submit" name="submit" class="btn btn-success" value="Update" id="submit" />
+        <input style="margin-top:12px;" type="submit" name="submit" class="btn btn-success" value="Save" id="submit" />
     </div>
 }

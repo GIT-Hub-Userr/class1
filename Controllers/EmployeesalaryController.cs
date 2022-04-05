@@ -19,12 +19,24 @@ namespace WebApplication3.Controllers
         }
         public ActionResult Index()
         {
-            List<employee_salary_details> all_data = db.employee_salary_details.ToList();
-            return View(all_data);
+            var employee_salary_details = db.employee_salary_details.ToList();
+            //List<employee_salary_details> all_data = db.employee_salary_details.ToList();
+            //return View(all_data);
+            return View(employee_salary_details);
         }
         public ActionResult Create()
         {
+            var emplist= db.employee_table.ToList();
+            ViewBag.employeeList = new SelectList(emplist, "id", "Name");
             return View();
+        }
+        [HttpPost]
+        public ActionResult Create(employee_salary_details employee_Salary_Details)
+        {
+            db.employee_salary_details.Add(employee_Salary_Details);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+
         }
         public ActionResult SaveData(employee_salary_details employeesalary)
         {
