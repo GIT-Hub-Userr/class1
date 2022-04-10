@@ -32,6 +32,24 @@
           <Property Name="address" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="contact" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="oid" />
+          </Key>
+          <Property Name="oid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pid" Type="int" Nullable="false" />
+          <Property Name="odate" Type="date" Nullable="false" />
+          <Property Name="oqty" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="pname" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pcategory" Type="int" Nullable="false" />
+          <Property Name="pmdate" Type="date" Nullable="false" />
+        </EntityType>
         <EntityType Name="sales_table">
           <Key>
             <PropertyRef Name="sid" />
@@ -67,6 +85,18 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="tcontact" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="tsubject" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
+        <Association Name="FK_employee_salary_details_employee_salary_details">
+          <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="1" />
+          <End Role="employee_salary_details1" Type="Self.employee_salary_details" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="employee_salary_details">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee_salary_details1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_employee_salary_details_employee_table">
           <End Role="employee_table" Type="Self.employee_table" Multiplicity="1" />
           <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="*" />
@@ -79,10 +109,24 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_order">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="employeeModelStoreContainer">
           <EntitySet Name="employee_salary_details" EntityType="Self.employee_salary_details" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="employee_table" EntityType="Self.employee_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="manager_table" EntityType="Self.manager_table" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="product" EntityType="Self.product" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sales_table" EntityType="Self.sales_table" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="studentdetails" EntityType="Self.studentdetails" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="teacherdetails" EntityType="Self.teacherdetails" store:Type="Tables" store:Schema="dbo">
@@ -94,9 +138,17 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
     [teacherdetails].[tsubject] AS [tsubject]
     FROM [dbo].[teacherdetails] AS [teacherdetails]</DefiningQuery>
           </EntitySet>
+          <AssociationSet Name="FK_employee_salary_details_employee_salary_details" Association="Self.FK_employee_salary_details_employee_salary_details">
+            <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+            <End Role="employee_salary_details1" EntitySet="employee_salary_details" />
+          </AssociationSet>
           <AssociationSet Name="FK_employee_salary_details_employee_table" Association="Self.FK_employee_salary_details_employee_table">
             <End Role="employee_table" EntitySet="employee_table" />
             <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_order" Association="Self.FK_order_order">
+            <End Role="product" EntitySet="product" />
+            <End Role="order" EntitySet="order" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -112,6 +164,8 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="employee_id" Type="Int32" Nullable="false" />
           <Property Name="salary_paid" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
           <Property Name="paid_date" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="employee_salary_details1" Relationship="Self.FK_employee_salary_details_employee_salary_details" FromRole="employee_salary_details" ToRole="employee_salary_details1" />
+          <NavigationProperty Name="employee_salary_details2" Relationship="Self.FK_employee_salary_details_employee_salary_details" FromRole="employee_salary_details1" ToRole="employee_salary_details" />
           <NavigationProperty Name="employee_table" Relationship="Self.FK_employee_salary_details_employee_table" FromRole="employee_salary_details" ToRole="employee_table" />
         </EntityType>
         <EntityType Name="employee_table">
@@ -132,6 +186,26 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="oid" />
+          </Key>
+          <Property Name="oid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pid" Type="Int32" Nullable="false" />
+          <Property Name="odate" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="oqty" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="product" Relationship="Self.FK_order_order" FromRole="order" ToRole="product" />
+        </EntityType>
+        <EntityType Name="product">
+          <Key>
+            <PropertyRef Name="pid" />
+          </Key>
+          <Property Name="pid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="pname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pcategory" Type="Int32" Nullable="false" />
+          <Property Name="pmdate" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="orders" Relationship="Self.FK_order_order" FromRole="product" ToRole="order" />
         </EntityType>
         <EntityType Name="sales_table">
           <Key>
@@ -166,6 +240,18 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
           <Property Name="tcontact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="tsubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
+        <Association Name="FK_employee_salary_details_employee_salary_details">
+          <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="1" />
+          <End Role="employee_salary_details1" Type="Self.employee_salary_details" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="employee_salary_details">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="employee_salary_details1">
+              <PropertyRef Name="id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_employee_salary_details_employee_table">
           <End Role="employee_table" Type="Self.employee_table" Multiplicity="1" />
           <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="*" />
@@ -178,16 +264,38 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_order_order">
+          <End Role="product" Type="Self.product" Multiplicity="1" />
+          <End Role="order" Type="Self.order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="product">
+              <PropertyRef Name="pid" />
+            </Principal>
+            <Dependent Role="order">
+              <PropertyRef Name="pid" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="employee_salary_details" EntityType="Self.employee_salary_details" />
           <EntitySet Name="employee_table" EntityType="Self.employee_table" />
           <EntitySet Name="manager_table" EntityType="Self.manager_table" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="products" EntityType="Self.product" />
           <EntitySet Name="sales_table" EntityType="Self.sales_table" />
           <EntitySet Name="studentdetails" EntityType="Self.studentdetail" />
           <EntitySet Name="teacherdetails" EntityType="Self.teacherdetail" />
+          <AssociationSet Name="FK_employee_salary_details_employee_salary_details" Association="Self.FK_employee_salary_details_employee_salary_details">
+            <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+            <End Role="employee_salary_details1" EntitySet="employee_salary_details" />
+          </AssociationSet>
           <AssociationSet Name="FK_employee_salary_details_employee_table" Association="Self.FK_employee_salary_details_employee_table">
             <End Role="employee_table" EntitySet="employee_table" />
             <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+          </AssociationSet>
+          <AssociationSet Name="FK_order_order" Association="Self.FK_order_order">
+            <End Role="product" EntitySet="products" />
+            <End Role="order" EntitySet="orders" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -223,6 +331,26 @@ warning 6002: The table/view 'employee.dbo.teacherdetails' does not have a prima
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="address" ColumnName="address" />
                 <ScalarProperty Name="contact" ColumnName="contact" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="employeeModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="oid" ColumnName="oid" />
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="odate" ColumnName="odate" />
+                <ScalarProperty Name="oqty" ColumnName="oqty" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="products">
+            <EntityTypeMapping TypeName="employeeModel.product">
+              <MappingFragment StoreEntitySet="product">
+                <ScalarProperty Name="pid" ColumnName="pid" />
+                <ScalarProperty Name="pname" ColumnName="pname" />
+                <ScalarProperty Name="pcategory" ColumnName="pcategory" />
+                <ScalarProperty Name="pmdate" ColumnName="pmdate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

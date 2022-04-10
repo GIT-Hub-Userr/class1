@@ -12,15 +12,13 @@ namespace WebApplication3.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class employee_salary_details
+    public partial class order
     {
-        public int id { get; set; }
-        public int employee_id { get; set; }
-        public decimal salary_paid { get; set; }
-        public System.DateTime paid_date { get; set; }
+        public int oid { get; set; }
+        public int pid { get; set; }
+        public System.DateTime odate { get; set; }
+        public int oqty { get; set; }
     
-        public virtual employee_salary_details employee_salary_details1 { get; set; }
-        public virtual employee_salary_details employee_salary_details2 { get; set; }
-        public virtual employee_table employee_table { get; set; }
+        public virtual product product { get; set; }
     }
 }

@@ -31,6 +31,26 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="orders">
+      <EntityTypeMapping TypeName="employeeModel.order">
+        <MappingFragment StoreEntitySet="order">
+          <ScalarProperty Name="oid" ColumnName="oid" />
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="odate" ColumnName="odate" />
+          <ScalarProperty Name="oqty" ColumnName="oqty" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="products">
+      <EntityTypeMapping TypeName="employeeModel.product">
+        <MappingFragment StoreEntitySet="product">
+          <ScalarProperty Name="pid" ColumnName="pid" />
+          <ScalarProperty Name="pname" ColumnName="pname" />
+          <ScalarProperty Name="pcategory" ColumnName="pcategory" />
+          <ScalarProperty Name="pmdate" ColumnName="pmdate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="sales_table">
       <EntityTypeMapping TypeName="employeeModel.sales_table">
         <MappingFragment StoreEntitySet="sales_table">

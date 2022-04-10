@@ -8,6 +8,8 @@
     <Property Name="employee_id" Type="Int32" Nullable="false" />
     <Property Name="salary_paid" Type="Decimal" Precision="18" Scale="2" Nullable="false" />
     <Property Name="paid_date" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="employee_salary_details1" Relationship="Self.FK_employee_salary_details_employee_salary_details" FromRole="employee_salary_details" ToRole="employee_salary_details1" />
+    <NavigationProperty Name="employee_salary_details2" Relationship="Self.FK_employee_salary_details_employee_salary_details" FromRole="employee_salary_details1" ToRole="employee_salary_details" />
     <NavigationProperty Name="employee_table" Relationship="Self.FK_employee_salary_details_employee_table" FromRole="employee_salary_details" ToRole="employee_table" />
   </EntityType>
   <EntityType Name="employee_table">
@@ -28,6 +30,26 @@
     <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="contact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+  </EntityType>
+  <EntityType Name="order">
+    <Key>
+      <PropertyRef Name="oid" />
+    </Key>
+    <Property Name="oid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pid" Type="Int32" Nullable="false" />
+    <Property Name="odate" Type="DateTime" Nullable="false" Precision="0" />
+    <Property Name="oqty" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="product" Relationship="Self.FK_order_order" FromRole="order" ToRole="product" />
+  </EntityType>
+  <EntityType Name="product">
+    <Key>
+      <PropertyRef Name="pid" />
+    </Key>
+    <Property Name="pid" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="pname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="pcategory" Type="Int32" Nullable="false" />
+    <Property Name="pmdate" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="orders" Relationship="Self.FK_order_order" FromRole="product" ToRole="order" />
   </EntityType>
   <EntityType Name="sales_table">
     <Key>
@@ -62,6 +84,18 @@
     <Property Name="tcontact" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="tsubject" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
   </EntityType>
+  <Association Name="FK_employee_salary_details_employee_salary_details">
+    <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="1" />
+    <End Role="employee_salary_details1" Type="Self.employee_salary_details" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="employee_salary_details">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="employee_salary_details1">
+        <PropertyRef Name="id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_employee_salary_details_employee_table">
     <End Role="employee_table" Type="Self.employee_table" Multiplicity="1" />
     <End Role="employee_salary_details" Type="Self.employee_salary_details" Multiplicity="*" />
@@ -74,16 +108,38 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_order_order">
+    <End Role="product" Type="Self.product" Multiplicity="1" />
+    <End Role="order" Type="Self.order" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="product">
+        <PropertyRef Name="pid" />
+      </Principal>
+      <Dependent Role="order">
+        <PropertyRef Name="pid" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="MainEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="employee_salary_details" EntityType="Self.employee_salary_details" />
     <EntitySet Name="employee_table" EntityType="Self.employee_table" />
     <EntitySet Name="manager_table" EntityType="Self.manager_table" />
+    <EntitySet Name="orders" EntityType="Self.order" />
+    <EntitySet Name="products" EntityType="Self.product" />
     <EntitySet Name="sales_table" EntityType="Self.sales_table" />
     <EntitySet Name="studentdetails" EntityType="Self.studentdetail" />
     <EntitySet Name="teacherdetails" EntityType="Self.teacherdetail" />
+    <AssociationSet Name="FK_employee_salary_details_employee_salary_details" Association="Self.FK_employee_salary_details_employee_salary_details">
+      <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+      <End Role="employee_salary_details1" EntitySet="employee_salary_details" />
+    </AssociationSet>
     <AssociationSet Name="FK_employee_salary_details_employee_table" Association="Self.FK_employee_salary_details_employee_table">
       <End Role="employee_table" EntitySet="employee_table" />
       <End Role="employee_salary_details" EntitySet="employee_salary_details" />
+    </AssociationSet>
+    <AssociationSet Name="FK_order_order" Association="Self.FK_order_order">
+      <End Role="product" EntitySet="products" />
+      <End Role="order" EntitySet="orders" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

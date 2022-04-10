@@ -20,22 +20,31 @@
 <table class="table" border="1">
     <tr>
         <th>SN</th>
+        <th>Name</th>
         <th>id</th>
         <th>employee_id</th>
         <th>salary_paid</th>
         <th>paid_date</th>
         <th>edit</th>
+        <th>Delete</th>
+
     </tr>
     @foreach (var employee_salary_details in Model)
     {
-        <tr>
-            <td>@(++sn)</td>
-            <td>@employee_salary_details.id</td>
-            <td>@employee_salary_details.employee_id</td>
-            <td>@employee_salary_details.salary_paid</td>
-            <td>@employee_salary_details.paid_date</td>
-            <td><a href="@Url.Action("Edit", new {id=employee_salary_details.id})">Edit</a></td>
-        </tr>
+<tr>
+    <td>@(++sn)</td>
+    <td>@employee_salary_details.employee_table.name</td>
+    <td>@employee_salary_details.id</td>
+    <td>@employee_salary_details.employee_id</td>
+    <td>@employee_salary_details.salary_paid</td>
+    <td>@employee_salary_details.paid_date</td>
+    <td><a href="@Url.Action("Edit", new {id=employee_salary_details.id})">Edit</a></td>
+</tr>
     }
+    <tr>
+        <td>Total</td>
+        <td colspan="5">@Model.Sum(x=>x.salary_paid)</td>
+    </tr>
 </table>
+
 

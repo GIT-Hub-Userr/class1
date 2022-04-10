@@ -50,12 +50,5 @@ namespace WebApplication3.Controllers
             //employee_table data = db.employee_table.FirstOrDefault(x => x.id == id); want to find not from id but from other
             return View(old_data); ;
         }
-        public ActionResult UpdateData(employee_salary_details employee_salary_details)
-        {
-            db.Entry(employee_salary_details).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-
-        }
     }
 }
