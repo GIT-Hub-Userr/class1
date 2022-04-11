@@ -17,12 +17,22 @@
 </style>
 
 <h2>Display</h2>
+@using (Html.BeginForm("index", "employee", FormMethod.Get))
+{
+    <select>
+        <option value="" name="id">ID</option>
+        <option value="" name="name">Name</option>
+        <option value="" name="address">Address</option>
+        <option value="" name="contact">Contact</option>
+    </select>
+}
 @using (Html.BeginForm("index", "employee", FormMethod.Post))
 {
     <lable>Search BY Name:</lable>
     <input type="text" name="name" value="" class="namee" />
     <input type="submit" value="search" class="button" />
-    <br /><br />
+    <br />
+    <br />
 }
 
 <table class="table" border="1">

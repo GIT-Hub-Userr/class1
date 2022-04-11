@@ -53,5 +53,13 @@ namespace WebApplication3.Controllers
             var results = db.employee_table.Where(x => x.name == name).ToList();
             return View(results);
         }
+        [HttpPost]
+        public ActionResult Index(int id,string name)
+        { 
+            var result=db.employee_table.Where(x=>x.id==id).ToList();
+             return View(result);
+             var results = db.employee_table.Where(x => x.name == name). ToList();
+             return View(results);
+        }
     }
 }

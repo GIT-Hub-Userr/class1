@@ -31,11 +31,10 @@ namespace WebApplication3.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Index(DateTime? datt, DateTime? dat)
+        public ActionResult Index(DateTime? datt, DateTime? dat,string name)
         {
-            var results = db.employee_salary_details.Where(x => x.paid_date >= datt && x.paid_date <= dat).ToList();
+            var results = db.employee_salary_details.Where(x => x.paid_date >= datt && x.paid_date <= dat ||x.employee_table.name==name).ToList();
             return View(results);
-
         }
         [HttpPost]
         public ActionResult Create(employee_salary_details employee_Salary_Details)

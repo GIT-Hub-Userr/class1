@@ -23,6 +23,8 @@
     <input type="date" name="datt" value="" class="datee" />
     <label>End Date:</label>
     <input type="date" name="dat" value="" class="dateee" />
+    <label>End Date:</label>
+    <input type="text" value="" name="name" class="namee" />
     <input type="submit" value="search" class="button" />
     <br />
     <br />
@@ -42,17 +44,17 @@
     </tr>
     @foreach (var employee_salary_details in Model)
     {
-<tr>
-    <td>@(++sn)</td>
-    <td>@employee_salary_details.employee_table.name</td>
-    <td>@employee_salary_details.id</td>
-    <td>@employee_salary_details.employee_id</td>
-    <td>@employee_salary_details.salary_paid</td>
-    <td>@employee_salary_details.paid_date</td>
-    <td><a href="@Url.Action("Edit", new {id=employee_salary_details.id})">Edit</a></td>
-    <td><a href="@Url.Action("DeleteData", new {id=employee_salary_details.id})">Delete</a></td>
+        <tr>
+            <td>@(++sn)</td>
+            <td>@employee_salary_details.employee_table.name</td>
+            <td>@employee_salary_details.id</td>
+            <td>@employee_salary_details.employee_id</td>
+            <td>@employee_salary_details.salary_paid</td>
+            <td>@employee_salary_details.paid_date</td>
+            <td><a href="@Url.Action("Edit", new {id=employee_salary_details.id})">Edit</a></td>
+            <td><a href="@Url.Action("DeleteData", new {id=employee_salary_details.id})">Delete</a></td>
 
-</tr>
+        </tr>
     }
     <tr>
         <td>Total Salary</td>
