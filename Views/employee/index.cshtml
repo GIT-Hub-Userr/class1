@@ -4,7 +4,8 @@
     int sn = 0;
 }
 
-<br /><br />
+<br />
+<br />
 <a href="@Url.Action("Create")" style="color:green;">Add new Record</a>
 <h3>Database Table Display</h3>
 <style>
@@ -16,6 +17,13 @@
 </style>
 
 <h2>Display</h2>
+@using (Html.BeginForm("index", "employee", FormMethod.Post))
+{
+    <input type="text" name="address" value="" class="addresses" />
+    <input type="submit" value="search" class="button" />
+    <br /><br />
+}
+
 <table class="table" border="1">
     <tr>
         <th>SN</th>

@@ -26,9 +26,16 @@ namespace WebApplication3.Controllers
         }
         public ActionResult Create()
         {
-            var emplist= db.employee_table.ToList();
+            var emplist = db.employee_table.ToList();
             ViewBag.employeeList = new SelectList(emplist, "id", "Name");
             return View();
+        }
+        [HttpPost]
+        public ActionResult Index(DateTime? datt, DateTime? dat)
+        {
+            var results = db.employee_salary_details.Where(x => x.paid_date >= datt && x.paid_date <= dat).ToList();
+            return View(results);
+
         }
         [HttpPost]
         public ActionResult Create(employee_salary_details employee_Salary_Details)
@@ -49,6 +56,13 @@ namespace WebApplication3.Controllers
             employee_salary_details old_data = db.employee_salary_details.Find(id);//find data using primary key
             //employee_table data = db.employee_table.FirstOrDefault(x => x.id == id); want to find not from id but from other
             return View(old_data); ;
+        }
+        public ActionResult DeleteData(int id)
+        {
+            employee_salary_details data = db.employee_salary_details.Find(id);
+            db.employee_salary_details.Remove(data);
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
     }
 }

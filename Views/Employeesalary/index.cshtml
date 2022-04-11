@@ -17,6 +17,17 @@
 </style>
 
 <h2>Display</h2>
+@using (Html.BeginForm("Index", "Employeesalary", FormMethod.Post))
+{
+    <label>Start Date:</label>
+    <input type="date" name="datt" value="" class="datee" />
+    <label>End Date:</label>
+    <input type="date" name="dat" value="" class="dateee" />
+    <input type="submit" value="search" class="button" />
+    <br />
+    <br />
+}
+
 <table class="table" border="1">
     <tr>
         <th>SN</th>
@@ -39,11 +50,13 @@
     <td>@employee_salary_details.salary_paid</td>
     <td>@employee_salary_details.paid_date</td>
     <td><a href="@Url.Action("Edit", new {id=employee_salary_details.id})">Edit</a></td>
+    <td><a href="@Url.Action("DeleteData", new {id=employee_salary_details.id})">Delete</a></td>
+
 </tr>
     }
     <tr>
-        <td>Total</td>
-        <td colspan="5">@Model.Sum(x=>x.salary_paid)</td>
+        <td>Total Salary</td>
+        <td colspan="7">@Model.Sum(x => x.salary_paid)</td>
     </tr>
 </table>
 
